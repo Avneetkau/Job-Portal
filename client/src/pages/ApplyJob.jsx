@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-import { assets, jobsData } from '../assets/assets';
+import { assets } from '../assets/assets';
 import Loading from '../components/Loading';
 import Navbar from "../components/Navbar";
 import kconvert from "k-convert";

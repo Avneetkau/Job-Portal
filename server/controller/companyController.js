@@ -174,3 +174,45 @@ catch(error){
     res.json({success:false,message:error.message})
 }
 }
+//Delete job posting
+// Delete job posting
+export const deleteJobPosting = async (req, res) => {
+  try {
+    const { id } = req.body; // jobId
+    const companyId = req.company._id;
+
+    const job = await Job.findById(id);
+
+    if (!job) {
+      return res.json({
+        success: false,
+        message: "Job not found"
+      });
+    }
+
+    // Check ownership
+    if (job.companyId.toString() !== companyId.toString()) {
+      return res.json({
+        success: false,
+        message: "Not authorized to delete this job"
+      });
+    }
+
+    // Delete all applications related to this job
+    await JobApplication.deleteMany({ jobId: id });
+
+    // Delete job
+    await Job.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: "Job deleted successfully"
+    });
+
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message
+    });
+  }
+};

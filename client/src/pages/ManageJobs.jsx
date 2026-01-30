@@ -13,6 +13,8 @@ const ManageJobs = () => {
 
     const [jobs, setJobs] = useState(false);
     const {backendUrl, companyToken} = useContext(AppContext);
+    const [deleteId, setDeleteId] = useState(null);
+
     //function to fetch company job application data
     const fetchCompanyJobs = async () => {
       try{
@@ -47,6 +49,8 @@ const ManageJobs = () => {
                 toast.error(error.message)
               }
        }
+     
+
 
 
     useEffect(()=>{
@@ -55,9 +59,12 @@ const ManageJobs = () => {
       }
     },[companyToken])
 
-  return jobs ? jobs.length === 0 ? (<div className='flex items-center justify-center h-[70vh]'>
+  return jobs ? jobs.length === 0 ? (
+  <div className='flex items-center justify-center h-[70vh]'>
     <p className='text-xl sm:text-2xl'>No jobs Available or posted</p>
-  </div>):(
+  </div>
+  ):(
+    <>
     <div className='container p-4 max-w-5xl'>
       <div className='overflow-x-auto'>
         <table className='min-w-full bg-white border border-gray-200 max-sm:text-sm'>
@@ -69,8 +76,10 @@ const ManageJobs = () => {
             <th className='py-2 px-4 border-b text-left max-sm:hidden'>Location</th>
             <th className='py-2 px-4 border-b text-center'>Applicants</th>
             <th className='py-2 px-4 border-b text-left'>Visible</th>
+            <th className='py-2 px-4 border-b text-left'>Delete</th>
             </tr>
           </thead>
+
           <tbody>
             {jobs.map((job, index)=>(
               <tr key={index} className='text-gray-700'>
@@ -83,6 +92,14 @@ const ManageJobs = () => {
                     <input onChange={()=>changeJobVisibility(job._id)}
                     className='scale-125 ml-4' type='checkbox' checked = {job.visible}/>
                 </td>
+                <td className='py-2 px-4 border-b'>
+                  <button
+    onClick={() => setDeleteId(job._id)}
+  className='bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded'
+  >
+    Delete
+  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -94,6 +111,51 @@ const ManageJobs = () => {
           </div>
 
     </div>
+
+     {/* ===== DELETE MODAL ===== */}
+    {deleteId && (
+      <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
+        <div className="bg-white border-2 border-red-500   rounded-lg p-6 w-[90%] max-w-sm">
+          <h2 className="text-lg font-semibold mb-2">Delete Job?</h2>
+          <p className="text-sm text-gray-600 mb-4">
+            This will permanently remove the job and all applications.
+          </p>
+
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={() => setDeleteId(null)}
+              className="px-4 py-2 bg-gray-200 rounded"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  const { data } = await axios.post(
+                    backendUrl + "/api/company/delete-job",
+                    { id: deleteId },
+                    { headers: { token: companyToken } }
+                  );
+                  if (data.success) {
+                    toast.success(data.message);
+                    fetchCompanyJobs();
+                  } else {
+                    toast.error(data.message);
+                  }
+                } catch (error) {
+                  toast.error(error.message);
+                }
+                setDeleteId(null);
+              }}
+              className="px-4 py-2 bg-red-600 text-white rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   ): <Loading/>
 }
 
