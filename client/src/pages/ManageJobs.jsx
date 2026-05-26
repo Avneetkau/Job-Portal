@@ -111,6 +111,7 @@ const ManageJobs = () => {
           </div>
 
     </div>
+     
 
      {/* ===== DELETE MODAL ===== */}
     {deleteId && (
