@@ -9,8 +9,8 @@ const Addjobs = () => {
 
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('Bangalore');
-  const [category, setCategory] = useState('Programmming');
-  const [level, setLevel] = useState(' Beginner level');
+  const [category, setCategory] = useState('Programming');
+  const [level, setLevel] = useState('Beginner level');
   const [salary, setSalary] = useState(0);
 
 
@@ -75,7 +75,7 @@ const Addjobs = () => {
           <p className='mb-2'>Job Location</p>
           <select className='w-full px-3 py-2 border-2 border-gray-200 rounded' onChange={(e)=> setLocation(e.target.value)}>
                {JobLocations.map((locations, index)=>(
-                <option key={index} value={location}>{locations}</option>
+                <option key={index} value={locations}>{locations}</option>
                ))}
           </select>
         </div>

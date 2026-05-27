@@ -16,8 +16,8 @@ const {setShowRecruiterLogin} = useContext(AppContext);
   return (
     <div className="shadow py-4">
       <div className="container px-4 2xl:px-20 mx-auto flex justify-between items-center">
-        <img onClick={()=> navigate('/')} className='cursor-pointer'
-        src={assets.logo} alt="logo"/>
+        <img onClick={()=> navigate('/')} className='cursor-pointer h-18 w-18 object-contain'
+        src={assets.logos} alt="logo"/>
         {
             user
             ?<div className="flex items-center gap-3">

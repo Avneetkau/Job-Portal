@@ -27,7 +27,19 @@ const handleLocationChange = (location) => {
 }
 
 useEffect(()=>{
-  const matchesCategory = job => selectedCategories.length === 0 || selectedCategories.includes(job.category);
+  
+  //const matchesCategory = job => selectedCategories.length === 0 || selectedCategories.includes(job.category);
+
+   const matchesCategory = job => {
+
+  console.log(job.category);
+  console.log(selectedCategories);
+
+  return (
+    selectedCategories.length === 0 ||
+    selectedCategories.includes(job.category)
+  );
+};
 
   const matchesLocation = job => selectedLocations.length === 0 || selectedLocations.includes(job.location);
   const matchesTitle = job =>searchFilter.title === '' || job.title.toLowerCase().includes(searchFilter.title.toLowerCase())

@@ -109,7 +109,18 @@ const RecruiterLogin = () => {
             </div>
           
         </>
-        }
+        } 
+        {/*dummy data login*/}
+               <p
+                  onClick={() => {
+                  setEmail('amazon@gmail.com');
+                  setPassword('amazon');
+                  }}
+                 className='text-sm text-gray-500 mt-3  text-center cursor-pointer hover:text-blue-600 hover:underline'
+                >
+                    Use Dummy Recruiter Login
+              </p>
+
           <p className='text-sm text-blue-600 mt-4 cursor-pointer'>Forget Password?</p>
        
         <button type='submit' className='bg-blue-600 w-full text-white py-2 rounded-full mt-4'>
